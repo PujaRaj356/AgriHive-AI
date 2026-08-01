@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // ================= Google Maps Styled Interactive Regional Map Tab =================
+=======
+// ================= Regional Map Tab with Real Leaflet & Satellite View =================
+>>>>>>> 7138a6e (Added authentication and user management)
 function RegionalMapTab({ api, notify, farms, selectedFarmId, setSelectedFarmId, goTo, lang = "en" }) {
   const { useState, useEffect, useCallback, useMemo, useRef } = React;
   const t = (key) => getTranslation(lang, key);
@@ -10,7 +14,15 @@ function RegionalMapTab({ api, notify, farms, selectedFarmId, setSelectedFarmId,
   const [xaiDataMap, setXaiDataMap] = useState({});
   const [selectedFarm, setSelectedFarm] = useState(null);
   const [loading, setLoading] = useState(true);
+<<<<<<< HEAD
   const [tileMode, setTileMode] = useState("roadmap"); // "roadmap" | "hybrid" | "terrain" | "osm"
+=======
+  const [mapMode, setMapMode] = useState("satellite"); // "satellite", "street", "topo"
+  const mapRef = React.useRef(null);
+  const leafletMapInstance = React.useRef(null);
+  const markersRef = React.useRef([]);
+  const tileLayerRef = React.useRef(null);
+>>>>>>> 7138a6e (Added authentication and user management)
 
   const loadAllFarmData = useCallback(async () => {
     try {
@@ -44,7 +56,11 @@ function RegionalMapTab({ api, notify, farms, selectedFarmId, setSelectedFarmId,
     loadAllFarmData();
   }, [loadAllFarmData]);
 
+<<<<<<< HEAD
   // Build structured farm list with real coordinates
+=======
+  // Compute map farm attributes
+>>>>>>> 7138a6e (Added authentication and user management)
   const mapFarms = useMemo(() => {
     return farms.map((f) => {
       const st = farmDataMap[f.id];
@@ -52,7 +68,11 @@ function RegionalMapTab({ api, notify, farms, selectedFarmId, setSelectedFarmId,
       const diseaseRisk = st?.current_metrics?.disease_risk_pct || 30;
       const waterStress = st?.current_metrics?.water_stress_pct || 25;
       const nutrientStatus = st?.current_metrics?.nutrient_status_pct || 60;
+<<<<<<< HEAD
       const riskLabel = diseaseRisk >= 70 ? "High Risk" : diseaseRisk >= 45 ? "Medium Risk" : "Low Risk";
+=======
+      const riskLabel = diseaseRisk >= 65 ? "High Risk" : diseaseRisk >= 40 ? "Medium Risk" : "Low Risk";
+>>>>>>> 7138a6e (Added authentication and user management)
 
       return {
         id: f.id,
@@ -60,13 +80,20 @@ function RegionalMapTab({ api, notify, farms, selectedFarmId, setSelectedFarmId,
         crop: f.crop || "Rice",
         lat: f.latitude || 10.8,
         lon: f.longitude || 78.7,
+<<<<<<< HEAD
         location: f.management_history ? f.management_history.split(".")[0] : "Tamil Nadu Region",
+=======
+>>>>>>> 7138a6e (Added authentication and user management)
         risk: riskLabel,
         disease: diseaseRisk,
         water: waterStress,
         nutrient: nutrientStatus,
         xai: xai,
+<<<<<<< HEAD
         state: st,
+=======
+        state: st
+>>>>>>> 7138a6e (Added authentication and user management)
       };
     });
   }, [farms, farmDataMap, xaiDataMap]);
@@ -78,6 +105,7 @@ function RegionalMapTab({ api, notify, farms, selectedFarmId, setSelectedFarmId,
     }
   }, [mapFarms, selectedFarm, selectedFarmId]);
 
+<<<<<<< HEAD
   // Initialize and update Google Maps Tiles via Leaflet Engine
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -164,10 +192,77 @@ function RegionalMapTab({ api, notify, farms, selectedFarmId, setSelectedFarmId,
             <span style="font-size: 14px;">${isSelected ? "🎯" : "🌾"}</span>
             <span>${f.name}</span>
             ${isSelected ? `<span style="background: #eab308; color: #0f172a; padding: 1px 6px; border-radius: 999px; font-size: 9px; font-weight: 900;">SELECTED</span>` : ""}
+=======
+  // Initialize and update Leaflet Map
+  useEffect(() => {
+    if (!mapRef.current || !window.L) return;
+
+    if (!leafletMapInstance.current) {
+      const defaultLat = mapFarms.length ? mapFarms[0].lat : 10.8;
+      const defaultLon = mapFarms.length ? mapFarms[0].lon : 78.7;
+      
+      const map = window.L.map(mapRef.current, {
+        center: [defaultLat, defaultLon],
+        zoom: 11,
+        zoomControl: false
+      });
+      window.L.control.zoom({ position: 'topleft' }).addTo(map);
+
+      leafletMapInstance.current = map;
+    }
+
+    const map = leafletMapInstance.current;
+
+    // Tile layers definition
+    const tileUrls = {
+      satellite: {
+        url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        attr: "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+      },
+      street: {
+        url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        attr: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+      },
+      topo: {
+        url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+        attr: "Map data: &copy; OpenStreetMap contributors, SRTM | Map style: &copy; OpenTopoMap"
+      }
+    };
+
+    const currentTile = tileUrls[mapMode] || tileUrls.satellite;
+
+    if (tileLayerRef.current) {
+      map.removeLayer(tileLayerRef.current);
+    }
+
+    tileLayerRef.current = window.L.tileLayer(currentTile.url, {
+      attribution: currentTile.attr,
+      maxZoom: 19
+    }).addTo(map);
+
+    // Clear existing markers
+    markersRef.current.forEach((m) => map.removeLayer(m));
+    markersRef.current = [];
+
+    // Add Leaflet Markers for each farm
+    const bounds = [];
+    mapFarms.forEach((f) => {
+      const isHigh = f.risk === "High Risk";
+      const isMed = f.risk === "Medium Risk";
+      const badgeBg = isHigh ? "#DC2626" : isMed ? "#D97706" : "#16A34A";
+
+      const customHtml = `
+        <div class="relative flex items-center justify-center cursor-pointer group">
+          ${isHigh ? '<span class="absolute -inset-2 rounded-full bg-rose-500/40 animate-ping"></span>' : ''}
+          <div class="relative px-2.5 py-1 rounded-full text-white text-xs font-black shadow-lg flex items-center gap-1 border-2 border-white" style="background-color: ${badgeBg};">
+            <span>🌾</span>
+            <span class="whitespace-nowrap">${f.name}</span>
+>>>>>>> 7138a6e (Added authentication and user management)
           </div>
         </div>
       `;
 
+<<<<<<< HEAD
       const customIcon = L.divIcon({
         html: markerHtml,
         className: `google-map-marker-pin ${isSelected ? "marker-selected-active" : ""}`,
@@ -224,6 +319,55 @@ function RegionalMapTab({ api, notify, farms, selectedFarmId, setSelectedFarmId,
       }
     }
   };
+=======
+      const customIcon = window.L.divIcon({
+        html: customHtml,
+        className: 'custom-leaflet-farm-marker',
+        iconSize: [120, 36],
+        iconAnchor: [60, 18]
+      });
+
+      const marker = window.L.marker([f.lat, f.lon], { icon: customIcon }).addTo(map);
+
+      marker.on('click', () => {
+        setSelectedFarm(f);
+        if (setSelectedFarmId) setSelectedFarmId(f.id);
+        map.panTo([f.lat, f.lon]);
+      });
+
+      // Bind popup
+      const popupContent = `
+        <div style="font-family: sans-serif; padding: 4px; max-width: 200px;">
+          <h4 style="font-weight: 800; font-size: 14px; margin: 0 0 4px 0; color: #0E1712;">${f.name} (${f.crop})</h4>
+          <p style="margin: 0 0 6px 0; font-size: 11px; color: #666;">Lat: ${f.lat.toFixed(4)}, Lon: ${f.lon.toFixed(4)}</p>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; margin-bottom: 4px;">
+            <span>Disease Risk:</span>
+            <span style="color: ${isHigh ? '#DC2626' : isMed ? '#D97706' : '#16A34A'}">${f.disease}%</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; margin-bottom: 4px;">
+            <span>Water Stress:</span>
+            <span style="color: #0284C7">${f.water}%</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 700;">
+            <span>Status:</span>
+            <span style="color: ${badgeBg}">${f.risk}</span>
+          </div>
+        </div>
+      `;
+      marker.bindPopup(popupContent);
+
+      markersRef.current.push(marker);
+      bounds.push([f.lat, f.lon]);
+    });
+
+    if (bounds.length > 1) {
+      map.fitBounds(bounds, { padding: [50, 50] });
+    } else if (bounds.length === 1) {
+      map.setView(bounds[0], 12);
+    }
+
+  }, [mapFarms, mapMode, setSelectedFarmId]);
+>>>>>>> 7138a6e (Added authentication and user management)
 
   const activeFarm = selectedFarm || mapFarms[0] || {
     id: 1, name: "Farm A", crop: "Rice", risk: "Low Risk", disease: 24, water: 20, nutrient: 65,
@@ -237,6 +381,7 @@ function RegionalMapTab({ api, notify, farms, selectedFarmId, setSelectedFarmId,
 
   return (
     <div className="space-y-4 h-[calc(100vh-140px)] flex flex-col">
+<<<<<<< HEAD
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-sand-200 shadow-sm">
         <div>
@@ -279,6 +424,40 @@ function RegionalMapTab({ api, notify, farms, selectedFarmId, setSelectedFarmId,
               className={`px-3 py-1 rounded-lg transition-all ${tileMode === "hybrid" ? "bg-leaf-600 text-white font-extrabold shadow-sm" : "text-ink-950/60 hover:text-ink-950"}`}
             >
               🛰️ Satellite Hybrid
+=======
+      {/* Header Bar with Satellite View Toggle */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-sand-200 shadow-sm">
+        <div>
+          <h2 className="text-xl font-extrabold text-ink-950 flex items-center gap-2">
+            <span>🗺️</span> Regional Intelligence Map
+          </h2>
+          <p className="text-xs text-ink-950/50">Interactive Satellite & Terrain GIS view across all {farms.length} registered farms</p>
+        </div>
+
+        {/* Satellite / Street Map Mode Switcher */}
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="bg-sand-100 p-1 rounded-xl border border-sand-200 flex items-center gap-1 text-xs font-bold">
+            <button
+              onClick={() => setMapMode("satellite")}
+              className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${mapMode === "satellite" ? "bg-leaf-600 text-white font-black shadow-sm" : "text-ink-950/60 hover:text-ink-950"}`}
+            >
+              <span>🛰️</span>
+              <span>Satellite View</span>
+            </button>
+            <button
+              onClick={() => setMapMode("street")}
+              className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${mapMode === "street" ? "bg-leaf-600 text-white font-black shadow-sm" : "text-ink-950/60 hover:text-ink-950"}`}
+            >
+              <span>🗺️</span>
+              <span>Street View</span>
+            </button>
+            <button
+              onClick={() => setMapMode("topo")}
+              className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${mapMode === "topo" ? "bg-leaf-600 text-white font-black shadow-sm" : "text-ink-950/60 hover:text-ink-950"}`}
+            >
+              <span>⛰️</span>
+              <span>Topo View</span>
+>>>>>>> 7138a6e (Added authentication and user management)
             </button>
           </div>
         </div>
@@ -286,6 +465,7 @@ function RegionalMapTab({ api, notify, farms, selectedFarmId, setSelectedFarmId,
 
       {/* Main Map & Side Details */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-6 min-h-0">
+<<<<<<< HEAD
         {/* Real Google Maps Container */}
         <div className="lg:col-span-2 bg-sand-100 rounded-3xl border border-sand-200 overflow-hidden shadow-inner relative flex flex-col min-h-[480px]">
           <div ref={mapContainerRef} className="w-full h-full min-h-[480px] z-10"></div>
@@ -293,6 +473,22 @@ function RegionalMapTab({ api, notify, farms, selectedFarmId, setSelectedFarmId,
 
         {/* Selected Farm Detail Panel */}
         <div className="bg-white rounded-3xl p-6 shadow-sm border border-sand-200 flex flex-col justify-between overflow-y-auto">
+=======
+        {/* Real Interactive Leaflet Satellite Map */}
+        <div className="lg:col-span-2 bg-sand-100 rounded-2xl relative border border-sand-200 overflow-hidden shadow-md flex flex-col">
+          <div ref={mapRef} className="w-full h-full min-h-[420px] z-0"></div>
+
+          {/* Bottom Legend Overlay */}
+          <div className="absolute bottom-4 left-4 z-10 bg-white/90 backdrop-blur px-3 py-1.5 rounded-xl border border-sand-200 flex items-center gap-4 text-xs font-bold text-ink-950 shadow-md">
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-leaf-500"></span> Low Risk</span>
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Medium Risk</span>
+            <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-rose-600"></span> High Risk</span>
+          </div>
+        </div>
+
+        {/* Right Detail Card */}
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-sand-200 flex flex-col justify-between overflow-y-auto">
+>>>>>>> 7138a6e (Added authentication and user management)
           <div>
             <div className="flex items-center justify-between border-b border-sand-100 pb-3">
               <div>
@@ -382,7 +578,11 @@ function RegionalMapTab({ api, notify, farms, selectedFarmId, setSelectedFarmId,
               if (setSelectedFarmId) setSelectedFarmId(activeFarm.id);
               goTo("recommendations");
             }}
+<<<<<<< HEAD
             className="w-full mt-6 py-3 bg-leaf-600 hover:bg-leaf-700 text-white font-extrabold rounded-xl text-xs shadow-md transition-colors"
+=======
+            className="w-full mt-6 py-3 bg-leaf-600 hover:bg-leaf-700 text-white font-extrabold rounded-xl text-sm transition-colors shadow-sm"
+>>>>>>> 7138a6e (Added authentication and user management)
           >
             View Farm XAI Attributions →
           </button>
