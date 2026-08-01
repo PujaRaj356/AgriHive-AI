@@ -20,17 +20,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.database import init_db
 from app.routers import (
+    alerts,
+    auth,
+    clustered_federated_learning,
     farms,
     feature_registry,
     feature_selection,
     ingestion,
     labels,
     predict,
-    clustered_federated_learning,
-    virtual_farm,
     pso,
+    virtual_farm,
     xai,
-    alerts,
 )
 
 
@@ -59,6 +60,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router)
 app.include_router(farms.router)
 app.include_router(ingestion.router)
 app.include_router(feature_registry.router)

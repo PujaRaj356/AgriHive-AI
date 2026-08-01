@@ -57,11 +57,13 @@ def session_scope():
 def init_db():
     """Create all tables. Called on app startup and by seed scripts."""
     from app.models import (  # noqa: F401
+        audit_log,
         farm,
         feature_registry,
         feature_selection,
         raw_data,
         trained_model,
+        user,
         water_stress,
     )
 

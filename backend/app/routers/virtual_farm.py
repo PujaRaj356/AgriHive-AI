@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 from app.database import get_db
-from app.services.virtual_farm_service import get_virtual_farm_state, run_what_if_simulation
+from app.services.virtual_farm_service import get_virtual_farm_state, run_what_if_simulation, update_custom_farmer_entry
 
 router = APIRouter(prefix="/virtual-farm", tags=["Virtual Farm Simulator"])
 
@@ -16,6 +16,19 @@ class WhatIfSimulationRequest(BaseModel):
     temperature_c: float = Field(32.0, ge=10.0, le=50.0)
     fertilizer_npk_pct: float = Field(80.0, ge=0.0, le=100.0)
     scenario_name: str = "Scenario 1"
+
+
+class CustomFarmerEntryRequest(BaseModel):
+    farm_id: int = 1
+    farm_name: str = "My Custom Farm"
+    crop: str = "Rice"
+    irrigation_method: str = "Drip"
+    soil_ph: float = 6.5
+    soil_moisture_pct: float = 40.0
+    temperature_c: float = 31.0
+    humidity_pct: float = 65.0
+    rainfall_24h_mm: float = 5.0
+    management_history: str = "Organic compost applied"
 
 
 @router.get("/state/{farm_id}")
@@ -67,3 +80,12 @@ def simulate_scenario_get(
         )
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+
+@router.post("/custom-entry")
+def process_custom_farmer_entry(req: CustomFarmerEntryRequest, db: Session = Depends(get_db)):
+    """Process real farmer entries and compute custom predictions benchmarked against regional seed data."""
+    try:
+        return update_custom_farmer_entry(db, req.dict())
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

@@ -11,6 +11,10 @@ function useApi(base) {
       fetchOpts = { ...opts };
     }
     fetchOpts.headers = { "Content-Type": "application/json", ...(fetchOpts.headers || {}) };
+    const token = localStorage.getItem("agri_token");
+    if (token) {
+      fetchOpts.headers["Authorization"] = `Bearer ${token}`;
+    }
     const res = await fetch(base + path, fetchOpts);
     let body = null;
     try { body = await res.json(); } catch (e) {}

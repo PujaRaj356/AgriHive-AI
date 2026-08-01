@@ -6,36 +6,59 @@ const TRANSLATIONS = {
     appTitle: "AgriHive AI",
     tagline: "Collaborative Farm Intelligence",
 
-    // Nav
+    // Nav Keys by Role
     nav_dashboard: "Dashboard",
+    nav_my_farm: "My Farm",
     nav_regional_map: "Regional Risk Map",
     nav_digital_twin: "Digital Twin & Simulation",
-    nav_analytics: "Clustered FL Analytics",
+    nav_analytics: "Regional Analytics",
     nav_farm_network: "Farm Network & Clusters",
-    nav_recommendations: "AI Recommendations (XAI)",
-    nav_ingestion: "Field Data",
-    nav_registry: "Feature Catalog",
+    nav_recommendations: "AI Recommendations",
+    nav_ingestion: "Data Ingestion",
+    nav_registry: "Feature Registry",
     nav_selection: "Feature Selection Engine",
+    nav_users: "User Management",
+    nav_audit_logs: "System Audit Logs",
     nav_help: "Help & Support",
     nav_login: "User Account & Login",
 
-    sub_dashboard: "Live overview of your farm sensors and regional predictive intelligence",
-    sub_regional_map: "Real-time risk map view across all active farms in Tamil Nadu and regional network",
+    // Navigation Subtitles
+    sub_dashboard: "Live overview of crop health, water stress, recommendations, and system metrics",
+    sub_my_farm: "Personalized crop condition, field attributes, and management history",
+    sub_regional_map: "Privacy-preserving regional risk map across active farming nodes",
     sub_digital_twin: "Simulate actions and predict 7-day crop outcomes before applying on your farm",
-    sub_analytics: "Clustered Federated Neural Network benchmark vs Random Forest baseline",
-    sub_farm_network: "Farm clusters and new feature discovery engine",
-    sub_recommendations: "Understand why AI recommendations were generated with SHAP feature attributions",
+    sub_analytics: "District-wide crop risk analysis, water stress trends, and disease spread monitoring",
+    sub_farm_network: "Network-wide farm topology, client clusters, and feature discovery",
+    sub_recommendations: "Actionable recommendations and non-technical Explainable AI reasons",
     sub_ingestion: "Ingest live weather and soil data from Open-Meteo & NASA POWER",
     sub_registry: "Catalog of candidate parameters tracked across all farm nodes",
     sub_selection: "Domain, quality, leakage, and redundancy feature selection pipeline",
-    sub_help: "User documentation, platform guides, and farmer support",
+    sub_users: "Admin user account management, role assignment, and account status controls",
+    sub_audit_logs: "Security audit logs, role modifications, and system events",
+    sub_help: "User documentation, platform guides, and role-specific support",
 
-    // Dashboard Modes & Data Explanations
+    // User Management & Audit Logs Keys
+    users_title: "System User Management",
+    users_sub: "Manage user accounts, roles, account status, and assigned farm contexts.",
+    add_user_btn: "Add New User",
+    role_all: "All Accounts",
+    users_table_header: "Registered System Accounts",
+    audit_title: "System Security Audit Logs",
+    audit_sub: "Immutable audit trail of user actions, role modifications, model updates, and system security events.",
+    refresh: "Refresh",
+
+    // Dashboard Modes & Explanations
     myFarmDashboard: "👨‍🌾 My Farm Personal Dashboard",
-    regionalDashboard: "🌐 Regional & Nearby Farms Analytics",
+    officerDashboard: "👩‍🌾 Agricultural Officer Regional Dashboard",
+    adminDashboard: "🌾 Administrator Platform Console",
     predictingForTitle: "Currently Predicting AI Risk & Yield For:",
     predictionExplanation: "Live predictions are computed using Open-Meteo REST Weather API, NASA POWER Solar Data, SoilGrids Soil Profile, and AgriHive Random Forest ML Engine.",
     privacyNotice: "🔒 Privacy-Preserving Regional Analysis — Peer farm sensor values are aggregated securely via Federated Learning without exposing private farm data.",
+
+    // Role Titles
+    roleFarmer: "Farmer / Farm Owner",
+    roleOfficer: "Agricultural Officer",
+    roleAdmin: "Administrator",
 
     // Common Metrics & Badges
     activeNode: "ACTIVE NODE",
@@ -77,21 +100,25 @@ const TRANSLATIONS = {
 
     // Auth & Profiles
     loginTitle: "Welcome to AgriHive AI",
-    loginSub: "Sign in to access your farm digital twin & collaborative intelligence",
+    loginSub: "Sign in to access your role-specific dashboard and collaborative intelligence",
     signIn: "Sign In",
     signUp: "Register New Account",
     username: "Username / Email",
     password: "Password",
     fullName: "Full Name",
     selectRole: "Select Account Role",
-    roleFarmer: "Farmer / Farm Owner",
-    roleAdmin: "Cooperative Admin",
     createAccountBtn: "Create Account",
     alreadyHaveAccount: "Already have an account? Sign In",
     noAccountYet: "Don't have an account? Register Now",
     quickDemoLogin: "Or Quick Login As:",
     loginAsFarmer: "👨‍🌾 Login as Farmer (Ramesh)",
-    loginAsAdmin: "🌾 Login as Admin (Dr. Anbarasan)",
+    loginAsOfficer: "👩‍🌾 Login as Officer (Dr. Anbarasan)",
+    loginAsAdmin: "🌾 Login as Admin (System Admin)",
+
+    // Access Denied (403)
+    accessDeniedTitle: "403 — Access Denied",
+    accessDeniedSub: "You do not have permission to view this page.",
+    accessDeniedMessage: "Your current account role does not have permission to access this module. Please navigate using your authorized sidebar items.",
 
     // Admin Dashboard Elements
     adminHeaderTitle: "Cooperative Regional Intelligence & Admin Console",
@@ -100,48 +127,55 @@ const TRANSLATIONS = {
     totalUsers: "Total Active Users",
     activeClusters: "Federated Clusters",
     modelAccuracy: "Global FL Accuracy",
-    userManagementTitle: "Registered Cooperative Users & Farm Nodes",
-    userNameCol: "User Name",
-    emailCol: "Email",
-    roleCol: "System Role",
-    assignedFarmCol: "Assigned Farm Node",
-    statusCol: "Status",
   },
 
   ta: {
     appTitle: "அக்ரிஹைவ் AI",
     tagline: "கூட்டு பண்ணை அறிவுத்திறன் பிளாட்ஃபார்ம்",
 
-    // Nav
+    // Nav Keys by Role
     nav_dashboard: "முகப்பு டாஷ்போர்டு",
+    nav_my_farm: "எனது பண்ணை",
     nav_regional_map: "பிராந்திய ஆபத்து வரைபடம்",
     nav_digital_twin: "டிஜிட்டல் இரட்டை & உருவகப்படுத்துதல்",
-    nav_analytics: "FL நரம்பியல் பகுப்பாய்வு",
+    nav_analytics: "பிராந்திய பகுப்பாய்வு",
     nav_farm_network: "பண்ணை நெட்வொர்க் & கிளஸ்டர்கள்",
-    nav_recommendations: "AI பரிந்துரைகள் (XAI)",
-    nav_ingestion: "வானிலை & மண் தரவு",
+    nav_recommendations: "AI பரிந்துரைகள்",
+    nav_ingestion: "தரவு உள்ளீடு",
     nav_registry: "அம்சம் பதிவேடு",
     nav_selection: "அம்சத் தேர்வு எஞ்சின்",
+    nav_users: "பயனர் மேலாண்மை",
+    nav_audit_logs: "பாதுகாப்பு பதிவுகள்",
     nav_help: "உதவி & ஆதரவு",
     nav_login: "பயனர் கணக்கு & உள்நுழைவு",
 
-    sub_dashboard: "உங்கள் பண்ணை சென்சார்கள் மற்றும் பிராந்திய நுண்ணறிவின் நேரலை மேலோட்டம்",
-    sub_regional_map: "தமிழ்நாடு மற்றும் பிராந்திய நெட்வொர்க்கில் உள்ள அனைத்து பண்ணைகளின் நேரலை ஆபத்து வரைபடம்",
+    // Subtitles
+    sub_dashboard: "பயிர் ஆரோக்கியம், நீர் அழுத்தம் மற்றும் பரிந்துரைகளின் நேரலை மேலோட்டம்",
+    sub_my_farm: "தனிப்பட்ட பயிர் நிலை, நிலத்தின் பண்புகள் மற்றும் வரலாற்றுத் தகவல்கள்",
+    sub_regional_map: "தனியுரிமை பாதுகாக்கப்பட்ட பிராந்திய ஆபத்து வரைபடம்",
     sub_digital_twin: "பண்ணையில் செயல்படுத்துவதற்கு முன் 7 நாள் விளைவுகளை உருவகப்படுத்தி கணிக்கவும்",
-    sub_analytics: "ரேண்டம் ஃபாரஸ்ட் உடன் கூட்டமைப்பு நரம்பியல் வலைப்பின்னல் ஒப்பீடு",
+    sub_analytics: "மாவட்ட ரீதியிலான பயிர் ஆபத்து பகுப்பாய்வு மற்றும் நோய் பரவல் கண்காணிப்பு",
     sub_farm_network: "பண்ணை கிளஸ்டர்கள் மற்றும் புதிய அம்ச கண்டுபிடிப்பு எஞ்சின்",
-    sub_recommendations: "SHAP காரணி விளக்கங்களுடன் AI பரிந்துரைகளின் காரணத்தைப் புரிந்து கொள்ளுங்கள்",
-    sub_ingestion: "Open-Meteo & NASA POWER மூலம் நேரலை வானிலை மற்றும் மண் தரவை பதிவிறக்கவும்",
+    sub_recommendations: "காரண விளக்கங்களுடன் AI பரிந்துரைகள்",
+    sub_ingestion: "Open-Meteo & NASA POWER மூலம் நேரலை வானிலை மற்றும் மண் தரவை பெறவும்",
     sub_registry: "அனைத்து பண்ணை முனையங்களிலும் கண்காணிக்கப்படும் அளவுருக்களின் பட்டியல்",
     sub_selection: "தரக் கட்டுப்பாடு மற்றும் கசிவு தடுப்பு அம்ச தேர்வு எஞ்சின்",
-    sub_help: "பயனர் ஆவணங்கள், தளம் வழிகாட்டி மற்றும் விவசாயி ஆதரவு",
+    sub_users: "நிர்வாகி பயனர் கணக்கு மேலாண்மை மற்றும் பங்குகள் ஒதுக்கீடு",
+    sub_audit_logs: "பாதுகாப்பு மற்றும் தணிக்கைப் பதிவுகள்",
+    sub_help: "பயனர் ஆவணங்கள் மற்றும் பங்கு சார்ந்த ஆதரவு",
 
-    // Dashboard Modes & Data Explanations
+    // Dashboard Modes
     myFarmDashboard: "👨‍🌾 எனது பண்ணை தனிப்பட்ட டாஷ்போர்டு",
-    regionalDashboard: "🌐 பிராந்திய & அருகிலுள்ள பண்ணைகள் பகுப்பாய்வு",
+    officerDashboard: "👩‍🌾 வேளாண் அதிகாரி பிராந்திய டாஷ்போர்டு",
+    adminDashboard: "🌾 நிர்வாகி பிளாட்ஃபார்ம் கன்சோல்",
     predictingForTitle: "தற்போது AI கணிப்பு செய்யப்படும் பண்ணை:",
-    predictionExplanation: "Open-Meteo நேரலை வானிலை API, NASA POWER சூரிய தரவு, SoilGrids மண் சுயவிவரம் மற்றும் AgriHive AI ரேண்டம் ஃபாரஸ்ட் எஞ்சின் மூலம் கணிப்புகள் செய்யப்படுகின்றன.",
+    predictionExplanation: "Open-Meteo நேரலை வானிலை API, NASA POWER சூரிய தரவு, SoilGrids மண் சுயவிவரம் மூலம் கணிப்புகள் செய்யப்படுகின்றன.",
     privacyNotice: "🔒 தனியுரிமை பாதுகாக்கப்பட்ட பிராந்திய பகுப்பாய்வு — தனியுரிமை தரவு வெளிப்படுத்தப்படாமல் கூட்டமைப்பு கற்றல் மூலம் பகிரப்படுகிறது.",
+
+    // Role Titles
+    roleFarmer: "விவசாயி / பண்ணை உரிமையாளர்",
+    roleOfficer: "வேளாண் அதிகாரி (Officer)",
+    roleAdmin: "நிர்வாகி (Admin)",
 
     // Common Metrics & Badges
     activeNode: "செயல்படும் பண்ணை",
@@ -171,32 +205,27 @@ const TRANSLATIONS = {
     reconnect: "மீண்டும் இணைக்கவும்",
     logout: "வெளியேறு (Logout)",
 
-    // Dashboard Cards & Sources
-    dataSourceNotice: "ஆதாரம்: Open-Meteo & NASA POWER நேரலை சென்சார் API",
-    riskTrend: "நேரலை ஆபத்து போக்கு",
-    riskTrendSub: "சென்சார் தரவு அடிப்படையிலான நேரலை முன்கணிப்பு காட்டி",
-    nearbyFarmsTitle: "அருகிலுள்ள பிராந்திய பண்ணைகள் — ஆபத்து பகுப்பாய்வு",
-    viewMap: "வரைபடத்தைப் பார்",
-    psoRecTitle: "AI Swarm பரிந்துரைக்கப்பட்ட நடவடிக்கை (PSO)",
-    confidence: "நம்பகத்தன்மை மதிப்பெண்",
-
     // Auth & Profiles
     loginTitle: "அக்ரிஹைவ் AI-க்கு நல்வரவு",
-    loginSub: "உங்கள் பண்ணை டிஜிட்டல் இரட்டை மற்றும் கூட்டு நுண்ணறிவை அணுக உள்நுழைக",
+    loginSub: "உங்கள் பங்கு சார்ந்த டாஷ்போர்டை அணுக உள்நுழைக",
     signIn: "உள்நுழைக (Sign In)",
     signUp: "புதிய கணக்கை உருவாக்கவும்",
     username: "பயனர் பெயர் / மின்னஞ்சல்",
     password: "கடவுச்சொல்",
     fullName: "முழு பெயர்",
     selectRole: "கணக்கு வகையைத் தேர்ந்தெடுக்கவும்",
-    roleFarmer: "விவசாயி / பண்ணை உரிமையாளர்",
-    roleAdmin: "கூட்டுறவு நிர்வாகி (Admin)",
     createAccountBtn: "கணக்கை உருவாக்கு",
     alreadyHaveAccount: "ஏற்கனவே கணக்கு உள்ளதா? உள்நுழைக",
     noAccountYet: "கணக்கு இல்லையா? புதிய கணக்கை பதிவு செய்க",
     quickDemoLogin: "அல்லது விரைவாக உள்நுழைய:",
     loginAsFarmer: "👨‍🌾 விவசாயியாக உள்நுழைக (ரமேஷ்)",
-    loginAsAdmin: "🌾 நிர்வாகியாக உள்நுழைக (டாக்டர் அன்பரசன்)",
+    loginAsOfficer: "👩‍🌾 அதிகாரியாக உள்நுழைக (டாக்டர் அன்பரசன்)",
+    loginAsAdmin: "🌾 நிர்வாகியாக உள்நுழைக (System Admin)",
+
+    // Access Denied
+    accessDeniedTitle: "403 — அனுமதி மறுக்கப்பட்டது",
+    accessDeniedSub: "இந்தப் பக்கத்தைப் பார்க்க உங்களுக்கு அனுமதி இல்லை.",
+    accessDeniedMessage: "உங்கள் கணக்கு வகைக்கு இந்த பக்கத்தைப் பார்க்க அனுமதி இல்லை. இடதுபுற மெனுவைப் பயன்படுத்தவும்.",
 
     // Admin Dashboard Elements
     adminHeaderTitle: "கூட்டுறவு பிராந்திய நுண்ணறிவு & நிர்வாகக் கட்டுப்பாடு",
@@ -205,48 +234,55 @@ const TRANSLATIONS = {
     totalUsers: "மொத்த செயலில் உள்ள பயனர்கள்",
     activeClusters: "கூட்டமைப்பு கிளஸ்டர்கள்",
     modelAccuracy: "உலகளாவிய AI துல்லியம்",
-    userManagementTitle: "பதிவு செய்யப்பட்ட பயனர்கள் & பண்ணை முனையங்கள் பட்டியல்",
-    userNameCol: "பயனர் பெயர்",
-    emailCol: "மின்னஞ்சல்",
-    roleCol: "கணக்கு பங்கு",
-    assignedFarmCol: "ஒதுக்கப்பட்ட பண்ணை முனையம்",
-    statusCol: "நிலை",
   },
 
   hi: {
     appTitle: "एग्रीहाइव एआई",
     tagline: "सहयोगी कृषि बुद्धिमत्ता मंच",
 
-    // Nav
+    // Nav Keys by Role
     nav_dashboard: "डैशबोर्ड",
+    nav_my_farm: "मेरा फार्म",
     nav_regional_map: "क्षेत्रीय जोखिम मानचित्र",
     nav_digital_twin: "डिजिटल ट्विन और सिमुलेशन",
-    nav_analytics: "क्लस्टर्ड एफएल विश्लेषण",
+    nav_analytics: "क्षेत्रीय विश्लेषण",
     nav_farm_network: "फार्म नेटवर्क और क्लस्टर",
-    nav_recommendations: "एआई सिफारिशें (XAI)",
-    nav_ingestion: "मौसम और मिट्टी डेटा",
+    nav_recommendations: "एआई सिफारिशें",
+    nav_ingestion: "डेटा अंतर्ग्रहण",
     nav_registry: "फीचर रजिस्ट्री",
     nav_selection: "फीचर चयन इंजन",
+    nav_users: "उपयोगकर्ता प्रबंधन",
+    nav_audit_logs: "सुरक्षा ऑडिट लॉग",
     nav_help: "सहायता और समर्थन",
     nav_login: "उपयोगकर्ता खाता और लॉगिन",
 
-    sub_dashboard: "आपके खेत के सेंसर और क्षेत्रीय पूर्वानुमान का वास्तविक समय अवलोकन",
-    sub_regional_map: "तमिलनाडु और क्षेत्रीय नेटवर्क के सभी खेतों का लाइव जोखिम मानचित्र",
-    sub_digital_twin: "खेत पर लागू करने से पहले 7-दिवसीय फसल परिणामों का अनुकरण और पूर्वाग्रह करें",
-    sub_analytics: "रैंडम फॉरेस्ट बनाम क्लस्टर्ड फेडरेटेड न्यूरल नेटवर्क का प्रदर्शन",
+    // Subtitles
+    sub_dashboard: "फसल स्वास्थ्य, जल तनाव और सिफारिशों का लाइव अवलोकन",
+    sub_my_farm: "व्यक्तिगत फसल स्थिति और क्षेत्र प्रबंधन इतिहास",
+    sub_regional_map: "सक्रिय कृषि नोड्स पर गोपनीयता-संरक्षित जोखिम मानचित्र",
+    sub_digital_twin: "खेत पर लागू करने से पहले 7-दिवसीय फसल परिणामों का अनुकरण करें",
+    sub_analytics: "क्षेत्रीय फसल जोखिम विश्लेषण और रोग प्रसार निगरानी",
     sub_farm_network: "फार्म क्लस्टर और नई सुविधा खोज इंजन",
-    sub_recommendations: "समझें कि SHAP कारकों के साथ एआई सिफारिशें क्यों उत्पन्न की गईं",
+    sub_recommendations: "कार्रवाई योग्य सिफारिशें और एआई कारण",
     sub_ingestion: "Open-Meteo और NASA POWER से लाइव मौसम और मिट्टी डेटा डाउनलोड करें",
     sub_registry: "सभी फार्म नोड्स पर ट्रैक किए गए मापदंडों की सूची",
     sub_selection: "गुणवत्ता नियंत्रण और लीक रोकथाम सुविधा चयन प्रणाली",
-    sub_help: "उपयोगकर्ता दस्तावेज़, मंच गाइड और किसान सहायता",
+    sub_users: "व्यवस्थापक उपयोगकर्ता खाता प्रबंधन और भूमिका आवंटन",
+    sub_audit_logs: "सुरक्षा ऑडिट लॉग और सिस्टम इवेंट्स",
+    sub_help: "उपयोगकर्ता दस्तावेज़ और भूमिका-विशिष्ट सहायता",
 
-    // Dashboard Modes & Data Explanations
+    // Dashboard Modes
     myFarmDashboard: "👨‍🌾 मेरा व्यक्तिगत फार्म डैशबोर्ड",
-    regionalDashboard: "🌐 क्षेत्रीय और निकटवर्ती फार्म विश्लेषण",
-    predictingForTitle: "वर्तमान में इस खेत के लिए एआई पूर्वानुमान किया जा रहा है:",
-    predictionExplanation: "पूर्वाग्रह Open-Meteo मौसम एपीआई, NASA POWER सौर डेटा, SoilGrids मिट्टी प्रोफ़ाइल और AgriHive एआई इंजन का उपयोग करके किया जाता है।",
-    privacyNotice: "🔒 गोपनीयता संरक्षित क्षेत्रीय विश्लेषण — व्यक्तिगत डेटा उजागर किए बिना फेडरेटेड लर्निंग के माध्यम से साझा किया जाता है।",
+    officerDashboard: "👩‍🌾 कृषि अधिकारी क्षेत्रीय डैशबोर्ड",
+    adminDashboard: "🌾 व्यवस्थापक कंसोल",
+    predictingForTitle: "वर्तमान में इस खेत के लिए एआई पूर्वाग्रह किया जा रहा है:",
+    predictionExplanation: "पूर्वाग्रह Open-Meteo मौसम एपीआई, NASA POWER सौर डेटा, SoilGrids से प्राप्त किया जाता है।",
+    privacyNotice: "🔒 गोपनीयता संरक्षित क्षेत्रीय विश्लेषण — व्यक्तिगत डेटा उजागर किए बिना साझा किया जाता है।",
+
+    // Role Titles
+    roleFarmer: "किसान / फार्म मालिक",
+    roleOfficer: "कृषि अधिकारी (Officer)",
+    roleAdmin: "प्रशासक (Admin)",
 
     // Common Metrics & Badges
     activeNode: "सक्रिय खेत",
@@ -276,32 +312,27 @@ const TRANSLATIONS = {
     reconnect: "पुन: कनेक्ट करें",
     logout: "लॉगआउट (Logout)",
 
-    // Dashboard Cards & Sources
-    dataSourceNotice: "स्रोत: Open-Meteo और NASA POWER लाइव सेंसर एपीआई",
-    riskTrend: "लाइव जोखिम प्रवृत्ति",
-    riskTrendSub: "सेंसर डेटा पर आधारित लाइव भविष्यसूचक संकेतक",
-    nearbyFarmsTitle: "निकटवर्ती क्षेत्रीय फार्म — जोखिम विश्लेषण",
-    viewMap: "मानचित्र देखें",
-    psoRecTitle: "एआई अनुशंसित कार्रवाई (PSO)",
-    confidence: "विश्वसनीयता स्कोर",
-
     // Auth & Profiles
     loginTitle: "एग्रीहाइव एआई में आपका स्वागत है",
-    loginSub: "अपने फार्म डिजिटल ट्विन और सहयोगी बुद्धिमत्ता तक पहुंचने के लिए साइन इन करें",
+    loginSub: "अपने डैशबोर्ड तक पहुंचने के लिए साइन इन करें",
     signIn: "साइन इन करें",
     signUp: "नया खाता पंजीकृत करें",
     username: "उपयोगकर्ता नाम / ईमेल",
     password: "पासवर्ड",
     fullName: "पूरा नाम",
     selectRole: "खाता भूमिका चुनें",
-    roleFarmer: "किसान / फार्म मालिक",
-    roleAdmin: "सहकारी प्रशासक (Admin)",
     createAccountBtn: "खाता बनाएं",
     alreadyHaveAccount: "क्या आपके पास पहले से एक खाता मौजूद है? साइन इन करें",
     noAccountYet: "खाता नहीं है? अभी पंजीकृत करें",
     quickDemoLogin: "या त्वरित लॉगिन करें:",
     loginAsFarmer: "👨‍🌾 किसान के रूप में लॉगिन करें (रमेश)",
-    loginAsAdmin: "🌾 एडमिन के रूप में लॉगिन करें (डॉ. अनबरसन)",
+    loginAsOfficer: "👩‍🌾 अधिकारी के रूप में लॉगिन करें (डॉ. अनबरसन)",
+    loginAsAdmin: "🌾 एडमिन के रूप में लॉगिन करें (System Admin)",
+
+    // Access Denied
+    accessDeniedTitle: "403 — पहुंच से वंचित",
+    accessDeniedSub: "आपको इस पृष्ठ को देखने की अनुमति नहीं है।",
+    accessDeniedMessage: "आपकी वर्तमान भूमिका के पास इस मॉड्यूल तक पहुंचने की अनुमति नहीं है।",
 
     // Admin Dashboard Elements
     adminHeaderTitle: "सहकारी क्षेत्रीय बुद्धिमत्ता और व्यवस्थापक कंसोल",
@@ -310,12 +341,6 @@ const TRANSLATIONS = {
     totalUsers: "कुल सक्रिय उपयोगकर्ता",
     activeClusters: "फेडरेटेड क्लस्टर",
     modelAccuracy: "वैश्विक एआई सटीकता",
-    userManagementTitle: "पंजीकृत उपयोगकर्ता और फार्म नोड्स सूची",
-    userNameCol: "उपयोगकर्ता का नाम",
-    emailCol: "ईमेल",
-    roleCol: "सिस्टम भूमिका",
-    assignedFarmCol: "आवंटित फार्म नोड",
-    statusCol: "स्थिति",
   }
 };
 

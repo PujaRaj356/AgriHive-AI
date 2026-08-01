@@ -157,3 +157,45 @@ def run_what_if_simulation(
             f"predicts disease risk at {simulated_risk_pct}% and expected yield change of {yield_change_pct}%."
         )
     }
+
+
+def update_custom_farmer_entry(db: Session, req: Dict[str, Any]) -> Dict[str, Any]:
+    """Save custom farmer inputs and compute custom predictions benchmarked against seeded models."""
+    farm_id = int(req.get("farm_id", 1))
+    farm = db.get(Farm, farm_id)
+    if farm:
+        if req.get("farm_name"):
+            farm.name = req["farm_name"]
+        if req.get("crop"):
+            farm.crop = req["crop"]
+        if req.get("irrigation_method"):
+            farm.irrigation_method = req["irrigation_method"]
+        if req.get("soil_ph"):
+            farm.soil_ph_farm_declared = float(req["soil_ph"])
+        if req.get("management_history"):
+            farm.management_history = req["management_history"]
+        db.commit()
+
+    now = dt.datetime.utcnow()
+    new_weather = RawWeatherRecord(
+        farm_id=farm_id,
+        record_date=now.date(),
+        source="real_farmer_entry",
+        temperature_c=float(req.get("temperature_c", 31.0)),
+        relative_humidity_pct=float(req.get("humidity_pct", 65.0)),
+        rainfall_mm=float(req.get("rainfall_24h_mm", 5.0)),
+        soil_moisture=float(req.get("soil_moisture_pct", 40.0)) / 100.0 if float(req.get("soil_moisture_pct", 40.0)) > 1.0 else float(req.get("soil_moisture_pct", 40.0)),
+        wind_speed_ms=3.5
+    )
+    db.add(new_weather)
+
+    new_soil = RawSoilRecord(
+        farm_id=farm_id,
+        source="real_farmer_entry",
+        depth="0-5cm",
+        soil_ph=float(req.get("soil_ph", 6.5)),
+    )
+    db.add(new_soil)
+    db.commit()
+
+    return get_virtual_farm_state(db, farm_id)

@@ -80,3 +80,105 @@ function Toast({ toast, onClose }) {
     </div>
   );
 }
+
+function Sidebar({ nav, tab, setTab, currentUser, onSwitchAccount, onLogout, t }) {
+  const role = currentUser?.role || "farmer";
+  const roleLabel = role === "admin" ? "Administrator" : role === "officer" ? "Agricultural Officer" : "Farmer / Farm Owner";
+  const roleIcon = role === "admin" ? "🌾" : role === "officer" ? "👩‍🌾" : "👨‍🌾";
+
+  return (
+    <aside className="w-64 bg-ink-950 text-sand-100 flex flex-col h-full border-r border-ink-900 shrink-0 select-none">
+      {/* Brand Header */}
+      <div className="p-6 border-b border-white/10 flex items-center gap-3">
+        <div className="w-10 h-10 rounded-2xl bg-leaf-600 text-white flex items-center justify-center shadow-lg font-extrabold text-xl">
+          🌾
+        </div>
+        <div>
+          <h1 className="font-black text-lg text-white tracking-tight leading-tight">AgriHive AI</h1>
+          <p className="text-[10px] font-extrabold text-leaf-400 uppercase tracking-widest">Collaborative AI</p>
+        </div>
+      </div>
+
+      {/* Current Role Badge Banner */}
+      <div className="mx-4 my-4 p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <span className="text-xl">{roleIcon}</span>
+          <div>
+            <p className="text-[11px] font-extrabold text-white leading-tight">{currentUser?.name || "Ramesh Kumar"}</p>
+            <p className="text-[9px] font-extrabold text-leaf-400 uppercase tracking-wider mt-0.5">{roleLabel}</p>
+          </div>
+        </div>
+        <button
+          onClick={onSwitchAccount}
+          title="Switch User Role Account"
+          className="px-2 py-1 bg-leaf-600 hover:bg-leaf-700 text-white text-[10px] font-black rounded-lg transition-colors"
+        >
+          Switch
+        </button>
+      </div>
+
+      {/* Navigation Link Items */}
+      <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
+        <p className="px-3 pt-2 pb-1 text-[10px] font-black text-sand-400/50 uppercase tracking-widest">System Modules</p>
+        {nav.map((item) => {
+          const Icon = item.icon || IconGrid;
+          const isActive = tab === item.key;
+          return (
+            <button
+              key={item.key}
+              onClick={() => setTab(item.key)}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-extrabold transition-all ${
+                isActive
+                  ? "bg-leaf-600 text-white shadow-md shadow-leaf-900/40"
+                  : "text-sand-300 hover:bg-white/10 hover:text-white"
+              }`}
+            >
+              <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-sand-400"}`} />
+              <span className="truncate">{item.label}</span>
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* User Session Footer */}
+      <div className="p-4 border-t border-white/10 bg-black/20">
+        <div className="flex items-center justify-between text-xs font-bold">
+          <span className="text-sand-400 text-[11px]">Logged in as <strong className="text-white">@{currentUser?.username || "farmer1"}</strong></span>
+          <button
+            onClick={onLogout}
+            className="text-rose-400 hover:text-rose-300 text-[11px] font-black hover:underline"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+function UserBadge({ user, onSwitch, onLogout, lang }) {
+  const role = user?.role || "farmer";
+  const roleBadgeCls =
+    role === "admin" ? "bg-purple-100 text-purple-800" : role === "officer" ? "bg-blue-100 text-blue-800" : "bg-leaf-100 text-leaf-800";
+  const roleLabel = role === "admin" ? "ADMINISTRATOR" : role === "officer" ? "AGRICULTURAL OFFICER" : "FARMER";
+
+  return (
+    <div className="flex items-center gap-2.5 pl-3 border-l border-sand-200">
+      <div className="w-8 h-8 rounded-full bg-leaf-700 text-white font-extrabold text-xs flex items-center justify-center shadow-sm">
+        {user?.name ? user.name.charAt(0) : "U"}
+      </div>
+      <div className="hidden sm:block text-left">
+        <p className="text-xs font-black text-ink-950 leading-tight">{user?.name || "Ramesh Kumar"}</p>
+        <span className={`px-1.5 py-0.2 rounded text-[9px] font-black uppercase tracking-wider ${roleBadgeCls}`}>
+          {roleLabel}
+        </span>
+      </div>
+      <button
+        onClick={onSwitch}
+        className="px-2.5 py-1 text-[11px] font-extrabold bg-sand-100 hover:bg-sand-200 text-ink-950 rounded-lg transition-colors border border-sand-200"
+      >
+        Switch
+      </button>
+    </div>
+  );
+}

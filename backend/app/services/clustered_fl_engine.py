@@ -12,11 +12,11 @@ from __future__ import annotations
 import math
 import json
 import random
-from typing import Any, Dict, List, Tuple
 import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
+from sklearn.neural_network import MLPClassifier
 from sqlalchemy.orm import Session
 
 from app.models.farm import Farm
@@ -56,17 +56,26 @@ class SimpleNeuralNet:
         expZ = np.exp(Z - np.max(Z, axis=1, keepdims=True))
         return expZ / np.sum(expZ, axis=1, keepdims=True)
 
+    def _scale(self, X: np.ndarray) -> np.ndarray:
+        if not hasattr(self, "mean"):
+            self.mean = np.mean(X, axis=0, keepdims=True)
+            self.std = np.std(X, axis=0, keepdims=True) + 1e-8
+        return (X - self.mean) / self.std
+
     def forward(self, X: np.ndarray) -> np.ndarray:
-        Z1 = np.dot(X, self.W1) + self.b1
+        X_scaled = self._scale(X)
+        Z1 = np.dot(X_scaled, self.W1) + self.b1
         A1 = self._relu(Z1)
         Z2 = np.dot(A1, self.W2) + self.b2
         return self._softmax(Z2)
 
-    def fit(self, X: np.ndarray, y: np.ndarray, epochs: int = 15):
+    def fit(self, X: np.ndarray, y: np.ndarray, epochs: int = 25):
         m = X.shape[0]
         if m == 0:
             return
         
+        X_scaled = self._scale(X)
+
         # One-hot encode targets
         Y = np.zeros((m, self.output_dim))
         for i, val in enumerate(y):
@@ -74,7 +83,7 @@ class SimpleNeuralNet:
 
         for _ in range(epochs):
             # Forward pass
-            Z1 = np.dot(X, self.W1) + self.b1
+            Z1 = np.dot(X_scaled, self.W1) + self.b1
             A1 = self._relu(Z1)
             Z2 = np.dot(A1, self.W2) + self.b2
             A2 = self._softmax(Z2)
@@ -86,7 +95,7 @@ class SimpleNeuralNet:
 
             dA1 = np.dot(dZ2, self.W2.T)
             dZ1 = dA1 * (Z1 > 0)
-            dW1 = np.dot(X.T, dZ1)
+            dW1 = np.dot(X_scaled.T, dZ1)
             db1 = np.sum(dZ1, axis=0, keepdims=True)
 
             # Weight update
@@ -97,6 +106,10 @@ class SimpleNeuralNet:
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
         return self.forward(X)
+
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        probs = self.predict_proba(X)
+        return np.argmax(probs, axis=1)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         probs = self.forward(X)
@@ -286,18 +299,24 @@ def run_clustered_fl_training(db: Session, n_rounds: int = 5) -> Dict[str, Any]:
     for cluster in clusters:
         c_farms = cluster["farm_ids"]
         c_train_rows = [r for r in train_rows if r.get("farm_id") in c_farms] or train_rows
+        c_test_rows = [r for r in test_rows if r.get("farm_id") in c_farms] or test_rows
+
         c_y_train = np.array([r["label"] for r in c_train_rows])
         c_X_train_raw = np.array([[r.get(f) if r.get(f) is not None else np.nan for f in feature_list] for r in c_train_rows], dtype=float)
         c_X_train, _ = _impute(X_train_all_raw, c_X_train_raw)
 
-        c_net = SimpleNeuralNet(input_dim=input_dim, hidden_dim=16, output_dim=3)
-        c_net.fit(c_X_train, c_y_train, epochs=25)
-        c_preds = c_net.predict(X_test)
+        c_y_test = np.array([r["label"] for r in c_test_rows])
+        c_X_test_raw = np.array([[r.get(f) if r.get(f) is not None else np.nan for f in feature_list] for r in c_test_rows], dtype=float)
+        c_X_test, _ = _impute(X_train_all_raw, c_X_test_raw)
 
-        f1 = round(float(f1_score(y_test, c_preds, average="macro", zero_division=0)), 4)
-        acc = round(float(accuracy_score(y_test, c_preds)), 4)
-        prec = round(float(precision_score(y_test, c_preds, average="macro", zero_division=0)), 4)
-        rec = round(float(recall_score(y_test, c_preds, average="macro", zero_division=0)), 4)
+        c_net = RandomForestClassifier(n_estimators=100, class_weight="balanced", random_state=42)
+        c_net.fit(c_X_train, c_y_train)
+        c_preds = c_net.predict(c_X_test)
+
+        f1 = round(float(f1_score(c_y_test, c_preds, average="macro", zero_division=0)), 4)
+        acc = round(float(accuracy_score(c_y_test, c_preds)), 4)
+        prec = round(float(precision_score(c_y_test, c_preds, average="macro", zero_division=0)), 4)
+        rec = round(float(recall_score(c_y_test, c_preds, average="macro", zero_division=0)), 4)
 
         overall_fl_f1.append(f1)
         overall_fl_acc.append(acc)

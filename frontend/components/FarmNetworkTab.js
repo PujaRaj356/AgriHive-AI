@@ -111,7 +111,7 @@ function FarmNetworkTab({ api, notify, farms, refreshFarms, lang = "en" }) {
                 const isGlobal = f.scope_status === "GLOBAL" || !f.farm_id;
                 return (
                   <tr key={i}>
-                    <td className="p-3 font-bold text-ink-950">{f.name}</td>
+                    <td className="p-3 font-bold text-ink-950">{f.feature_name || f.name || f.key}</td>
                     <td className="p-3">
                       <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold ${isGlobal ? "bg-leaf-100 text-leaf-700" : "bg-amber-100 text-amber-700"}`}>
                         {isGlobal ? "GLOBAL SHARED" : `LOCAL (Farm ${f.farm_id})`}

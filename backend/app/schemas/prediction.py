@@ -22,6 +22,8 @@ class TrainedModelOut(BaseModel):
 
 
 class PredictionOut(BaseModel):
+    model_config = ConfigDict(protected_namespaces=(), from_attributes=True)
+
     farm_id: int
     farm_name: str
     as_of_date: dt.date

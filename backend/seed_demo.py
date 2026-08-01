@@ -235,6 +235,38 @@ def run(synthetic: bool = True):
         fl_result = run_clustered_fl_training(db, n_rounds=5)
         print(f"\nClustered FL Rounds Complete: clusters={fl_result.get('total_clusters')}, summary={fl_result.get('clustered_fl_summary')}")
 
+    # Seed User Accounts & Audit Logs for RBAC Specification
+    with session_scope() as db:
+        from app.core.security import hash_password
+        from app.models.audit_log import AuditLog
+        from app.models.user import User
+
+        demo_users = [
+            dict(username="farmer1", email="ramesh@agrihive.in", password="farmer123", full_name="Ramesh Kumar", role="farmer", farm_id=farm_ids.get("Farm A", 1)),
+            dict(username="officer1", email="anbarasan@agrihive.in", password="officer123", full_name="Dr. S. Anbarasan", role="officer", farm_id=farm_ids.get("Farm B", 2)),
+            dict(username="admin1", email="admin@agrihive.in", password="admin123", full_name="System Admin", role="admin", farm_id=None),
+        ]
+
+        for udata in demo_users:
+            existing = db.query(User).filter(User.username == udata["username"]).first()
+            if not existing:
+                user_obj = User(
+                    username=udata["username"],
+                    email=udata["email"],
+                    password_hash=hash_password(udata["password"]),
+                    full_name=udata["full_name"],
+                    role=udata["role"],
+                    status="active",
+                    farm_id=udata["farm_id"],
+                )
+                db.add(user_obj)
+                print(f"[RBAC Seed] Created user '{udata['username']}' with role '{udata['role']}'")
+
+        # Initial System Audit Logs
+        db.add(AuditLog(username="SYSTEM", role="SYSTEM", action="SYSTEM_INIT", entity="Database", details="Initial database & RBAC tables provisioned", result="SUCCESS"))
+        db.add(AuditLog(username="admin1", role="admin", action="MODEL_DEPLOYED", entity="RandomForest", details="Random Forest baseline model v1.4 deployed", result="SUCCESS"))
+        db.add(AuditLog(username="admin1", role="admin", action="FL_ROUND_COMPLETED", entity="FederatedEngine", details="Clustered FL training round 5 completed across 7 farm clients", result="SUCCESS"))
+
     print("\nAgriHive AI full backend pipeline initialization complete!")
 
 
