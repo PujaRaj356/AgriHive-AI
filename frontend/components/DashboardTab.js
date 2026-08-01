@@ -306,7 +306,7 @@ function FarmerDashboardView({ t, activeFarm, farms = [], selectedFarmId, setSel
             className="px-3.5 py-1.5 bg-leaf-600 hover:bg-leaf-700 text-white font-extrabold text-xs rounded-xl shadow-sm transition-all shrink-0 flex items-center gap-1.5"
           >
             <span>📝</span>
-            <span>{hasTelemetry ? "Update Field Telemetry" : "Input Field Telemetry"}</span>
+            <span>{hasTelemetry ? t("updateFieldTelemetry", "Update Field Telemetry") : t("inputFieldTelemetry", "Input Field Telemetry")}</span>
           </button>
           {onAddFarm && (
             <button
@@ -314,7 +314,7 @@ function FarmerDashboardView({ t, activeFarm, farms = [], selectedFarmId, setSel
               className="px-3.5 py-1.5 bg-ink-950 hover:bg-ink-900 text-amber-400 font-extrabold text-xs rounded-xl shadow-sm transition-all shrink-0 flex items-center gap-1.5"
             >
               <span>➕</span>
-              <span>Register New Farm</span>
+              <span>{t("registerNewFarm", "Register New Farm")}</span>
             </button>
           )}
         </div>

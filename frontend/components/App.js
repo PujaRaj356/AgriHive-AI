@@ -96,7 +96,7 @@ function LoginModal({ onLogin, onClose, lang, apiBase }) {
             {isRegister ? "Create AgriHive Account" : t("loginTitle")}
           </h2>
           <p className="text-xs text-ink-950/50 leading-relaxed">
-            {isRegister ? "Register with username and password" : t("loginSub")}
+            {isRegister ? "Register with valid email ID and password" : t("loginSub")}
           </p>
         </div>
 
@@ -115,8 +115,8 @@ function LoginModal({ onLogin, onClose, lang, apiBase }) {
           )}
 
           <div>
-            <label className="text-xs font-bold text-ink-950">{t("username")}</label>
-            <input required className={inputCls + " mt-1"} value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} placeholder="farmer1 or ramesh@agrihive.in" />
+            <label className="text-xs font-bold text-ink-950">Email Address / Username</label>
+            <input required type="text" className={inputCls + " mt-1"} value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} placeholder="farmer1 or farmer@agrihive.com" />
           </div>
 
           <div>
@@ -497,7 +497,7 @@ function App() {
               {tab === "analytics" && <AnalyticsTab api={api} notify={notify} lang={lang} />}
               {tab === "farm_network" && <FarmNetworkTab api={api} notify={notify} farms={farms} refreshFarms={refreshFarms} lang={lang} />}
               {tab === "recommendations" && <XaiTab api={api} notify={notify} farms={farms} selectedFarmId={selectedFarmId} lang={lang} />}
-              {tab === "farms" && <FarmsTab api={api} notify={notify} farms={farms} refreshFarms={refreshFarms} selectedFarmId={selectedFarmId} setSelectedFarmId={setSelectedFarmId} lang={lang} />}
+              {tab === "farms" && <FarmsTab api={api} notify={notify} farms={farms} refreshFarms={refreshFarms} selectedFarmId={selectedFarmId} setSelectedFarmId={setSelectedFarmId} lang={lang} currentUser={currentUser} />}
               {tab === "ingestion" && <IngestionTab api={api} notify={notify} farms={farms} selectedFarmId={selectedFarmId} setSelectedFarmId={setSelectedFarmId} lang={lang} />}
               {tab === "registry" && <RegistryTab api={api} notify={notify} selectedFarmId={selectedFarmId} lang={lang} />}
               {tab === "selection" && <SelectionTab api={api} notify={notify} farms={farms} lang={lang} />}

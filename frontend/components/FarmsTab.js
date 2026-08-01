@@ -1,8 +1,10 @@
 // ================= Farms =================
-function FarmsTab({ api, notify, farms, refreshFarms, selectedFarmId, setSelectedFarmId, lang = "en" }) {
+function FarmsTab({ api, notify, farms, refreshFarms, selectedFarmId, setSelectedFarmId, lang = "en", currentUser }) {
   const t = (key) => getTranslation(lang, key);
   const [form, setForm] = useState({ name: "", latitude: "", longitude: "", crop: "", irrigation_method: "", soil_ph_farm_declared: "", extra_attributes_json: "" });
   const [busy, setBusy] = useState(false);
+
+  const isAdmin = currentUser?.role === "admin";
 
   const submit = async (e) => {
     e.preventDefault();
@@ -84,53 +86,58 @@ function FarmsTab({ api, notify, farms, refreshFarms, selectedFarmId, setSelecte
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
-      <div className="lg:col-span-2">
-        <Card title="Add a farm" subtitle="Location and crop details">
-          <form onSubmit={submit} className="space-y-3">
-            <Field label="Farm Name"><input required className={inputCls} value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="Green Valley Farm" /></Field>
-            
-            {/* Convenient Location Helpers */}
-            <div className="p-3 bg-sand-50 rounded-xl border border-sand-200 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-extrabold text-ink-950">Location Selection</span>
-                <button
-                  type="button"
-                  onClick={useCurrentGps}
-                  className="px-2.5 py-1 bg-leaf-600 hover:bg-leaf-700 text-white text-[11px] font-extrabold rounded-lg flex items-center gap-1 transition-colors shadow-sm"
-                >
-                  📍 Use My Current Location (GPS)
-                </button>
+      {/* Hide Add Farm creation form for Administrators */}
+      {!isAdmin && (
+        <div className="lg:col-span-2">
+          <Card title="Add a farm" subtitle="Location and crop details">
+            <form onSubmit={submit} className="space-y-3">
+              <Field label="Farm Name"><input required className={inputCls} value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="Green Valley Farm" /></Field>
+              
+              {/* Convenient Location Helpers */}
+              <div className="p-3 bg-sand-50 rounded-xl border border-sand-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-extrabold text-ink-950">Location Selection</span>
+                  <button
+                    type="button"
+                    onClick={useCurrentGps}
+                    className="px-2.5 py-1 bg-leaf-600 hover:bg-leaf-700 text-white text-[11px] font-extrabold rounded-lg flex items-center gap-1 transition-colors shadow-sm"
+                  >
+                    📍 Use My Current Location (GPS)
+                  </button>
+                </div>
+
+                <div>
+                  <select
+                    onChange={handleDistrictChange}
+                    className="w-full text-xs font-semibold bg-white border border-sand-200 rounded-lg p-2 text-ink-950"
+                  >
+                    {DISTRICT_PRESETS.map((d, i) => (
+                      <option key={i} value={d.name}>{d.name}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
-              <div>
-                <select
-                  onChange={handleDistrictChange}
-                  className="w-full text-xs font-semibold bg-white border border-sand-200 rounded-lg p-2 text-ink-950"
-                >
-                  {DISTRICT_PRESETS.map((d, i) => (
-                    <option key={i} value={d.name}>{d.name}</option>
-                  ))}
-                </select>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Latitude"><input required type="number" step="any" className={inputCls} value={form.latitude} onChange={e => setForm({ ...form, latitude: e.target.value })} placeholder="11.65" /></Field>
+                <Field label="Longitude"><input required type="number" step="any" className={inputCls} value={form.longitude} onChange={e => setForm({ ...form, longitude: e.target.value })} placeholder="78.15" /></Field>
               </div>
-            </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Crop"><input className={inputCls} value={form.crop} onChange={e => setForm({ ...form, crop: e.target.value })} placeholder="Rice" /></Field>
+                <Field label="Irrigation"><input className={inputCls} value={form.irrigation_method} onChange={e => setForm({ ...form, irrigation_method: e.target.value })} placeholder="Drip" /></Field>
+              </div>
+              <Field label="Declared soil pH"><input type="number" step="any" className={inputCls} value={form.soil_ph_farm_declared} onChange={e => setForm({ ...form, soil_ph_farm_declared: e.target.value })} placeholder="6.5" /></Field>
+              <Field label="Extra attribute (optional, JSON)"><input className={inputCls + " font-mono"} value={form.extra_attributes_json} onChange={e => setForm({ ...form, extra_attributes_json: e.target.value })} placeholder='{"canopy_temp_c": 28.4}' /></Field>
+              <Button type="submit" disabled={busy} icon={<IconPlus className="w-4 h-4" />}>{busy ? "Adding…" : "Add farm"}</Button>
+            </form>
+          </Card>
+        </div>
+      )}
 
-            <div className="grid grid-cols-2 gap-3">
-              <Field label="Latitude"><input required type="number" step="any" className={inputCls} value={form.latitude} onChange={e => setForm({ ...form, latitude: e.target.value })} placeholder="11.65" /></Field>
-              <Field label="Longitude"><input required type="number" step="any" className={inputCls} value={form.longitude} onChange={e => setForm({ ...form, longitude: e.target.value })} placeholder="78.15" /></Field>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <Field label="Crop"><input className={inputCls} value={form.crop} onChange={e => setForm({ ...form, crop: e.target.value })} placeholder="Rice" /></Field>
-              <Field label="Irrigation"><input className={inputCls} value={form.irrigation_method} onChange={e => setForm({ ...form, irrigation_method: e.target.value })} placeholder="Drip" /></Field>
-            </div>
-            <Field label="Declared soil pH"><input type="number" step="any" className={inputCls} value={form.soil_ph_farm_declared} onChange={e => setForm({ ...form, soil_ph_farm_declared: e.target.value })} placeholder="6.5" /></Field>
-            <Field label="Extra attribute (optional, JSON)"><input className={inputCls + " font-mono"} value={form.extra_attributes_json} onChange={e => setForm({ ...form, extra_attributes_json: e.target.value })} placeholder='{"canopy_temp_c": 28.4}' /></Field>
-            <Button type="submit" disabled={busy} icon={<IconPlus className="w-4 h-4" />}>{busy ? "Adding…" : "Add farm"}</Button>
-          </form>
-        </Card>
-      </div>
-      <div className="lg:col-span-3">
+      {/* Regional Farm Network Table (Full Width for Admin) */}
+      <div className={isAdmin ? "lg:col-span-5" : "lg:col-span-3"}>
         <Card title="Regional Farm Network & Nodes" subtitle={farms.length + " participating farms in federated network"}>
-          {farms.length === 0 ? <p className="text-sm text-ink-950/40 py-10 text-center">No farms yet — add one on the left.</p> : (
+          {farms.length === 0 ? <p className="text-sm text-ink-950/40 py-10 text-center">No farms registered yet in system.</p> : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead><tr className="text-left text-xs uppercase tracking-wide text-ink-950/40 border-b border-sand-100">

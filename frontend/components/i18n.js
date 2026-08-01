@@ -1,5 +1,5 @@
 // ================= Internationalization (i18n) Translations =================
-// Supports English (en), Tamil (ta - தமிழ்), and Hindi (hi - हिंदी)
+// Robust, Conflict-Free React i18n Engine supporting English (en), Tamil (ta - தமிழ்), and Hindi (hi - हिंदी)
 
 const TRANSLATIONS = {
   en: {
@@ -67,6 +67,10 @@ const TRANSLATIONS = {
     waterStress: "Water Stress",
     nutrientStatus: "Nutrient Status",
     yieldPrediction: "Yield Prediction",
+    overallFarmHealth: "Overall Farm Health",
+    todayRecommendedAction: "Today's Recommended Action",
+    todayWeatherConditions: "Today's Weather Conditions",
+    liveShapFactors: "Live SHAP Predominant Factors",
     highRisk: "High Risk",
     mediumRisk: "Medium Risk",
     lowRisk: "Low Risk",
@@ -89,6 +93,14 @@ const TRANSLATIONS = {
     language: "Language",
     logout: "Logout",
 
+    // Farm Action Buttons & Headers
+    updateFieldTelemetry: "Update Field Telemetry",
+    registerNewFarm: "Register New Farm",
+    addFarmBtn: "+ Add Farm",
+    googleMapBtn: "Google Map",
+    satelliteMapBtn: "Satellite Map",
+    viewFarmXai: "View Farm XAI Attributions",
+
     // Dashboard Cards & Sources
     dataSourceNotice: "Source: Open-Meteo & NASA POWER Real-Time Sensor API",
     riskTrend: "Dynamic Risk Trend",
@@ -110,15 +122,11 @@ const TRANSLATIONS = {
     createAccountBtn: "Create Account",
     alreadyHaveAccount: "Already have an account? Sign In",
     noAccountYet: "Don't have an account? Register Now",
-    quickDemoLogin: "Or Quick Login As:",
-    loginAsFarmer: "👨‍🌾 Login as Farmer (Ramesh)",
-    loginAsOfficer: "👩‍🌾 Login as Officer (Dr. Anbarasan)",
-    loginAsAdmin: "🌾 Login as Admin (System Admin)",
 
     // Access Denied (403)
     accessDeniedTitle: "403 — Access Denied",
     accessDeniedSub: "You do not have permission to view this page.",
-    accessDeniedMessage: "Your current account role does not have permission to access this module. Please navigate using your authorized sidebar items.",
+    accessDeniedMessage: "Your current account role does not have permission to access this module.",
 
     // Admin Dashboard Elements
     adminHeaderTitle: "Cooperative Regional Intelligence & Admin Console",
@@ -184,6 +192,10 @@ const TRANSLATIONS = {
     waterStress: "நீர் அழுத்த நிலை",
     nutrientStatus: "ஊட்டச்சத்து நிலை",
     yieldPrediction: "விளைச்சல் கணிப்பு",
+    overallFarmHealth: "ஒட்டுமொத்த பண்ணை ஆரோக்கியம்",
+    todayRecommendedAction: "இன்றைய பரிந்துரைக்கப்பட்ட நடவடிக்கை",
+    todayWeatherConditions: "இன்றைய வானிலை நிலைமைகள்",
+    liveShapFactors: "AI முதன்மை ஆபத்து காரணிகள்",
     highRisk: "அதிக ஆபத்து",
     mediumRisk: "நடுத்தர ஆபத்து",
     lowRisk: "குறைந்த ஆபத்து",
@@ -205,6 +217,23 @@ const TRANSLATIONS = {
     reconnect: "மீண்டும் இணைக்கவும்",
     logout: "வெளியேறு (Logout)",
 
+    // Farm Action Buttons & Headers
+    updateFieldTelemetry: "நிலத்தின் தரவை புதுப்பிக்கவும்",
+    registerNewFarm: "புதிய பண்ணையைப் பதிவு செய்க",
+    addFarmBtn: "+ பண்ணை சேர்க்கவும்",
+    googleMapBtn: "கூகிள் வரைபடம்",
+    satelliteMapBtn: "சாட்டிலைட் வரைபடம்",
+    viewFarmXai: "பண்ணை AI விளக்கக்காட்சியைப் பார்க்கவும்",
+
+    // Dashboard Cards & Sources
+    dataSourceNotice: "ஆதாரம்: Open-Meteo & NASA POWER நேரலை சென்சார் API",
+    riskTrend: "நேரலை ஆபத்து போக்கு",
+    riskTrendSub: "சென்சார் தரவு அடிப்படையிலான ஆபத்துக் காட்டி",
+    nearbyFarmsTitle: "அருகிலுள்ள பிராந்திய பண்ணைகள் — ஆபத்து பகுப்பாய்வு",
+    viewMap: "வரைபடத்தைப் பார்க்கவும்",
+    psoRecTitle: "Swarm AI பரிந்துரைக்கப்பட்ட நடவடிக்கை (PSO)",
+    confidence: "நம்பகத்தன்மை அளவு",
+
     // Auth & Profiles
     loginTitle: "அக்ரிஹைவ் AI-க்கு நல்வரவு",
     loginSub: "உங்கள் பங்கு சார்ந்த டாஷ்போர்டை அணுக உள்நுழைக",
@@ -217,15 +246,11 @@ const TRANSLATIONS = {
     createAccountBtn: "கணக்கை உருவாக்கு",
     alreadyHaveAccount: "ஏற்கனவே கணக்கு உள்ளதா? உள்நுழைக",
     noAccountYet: "கணக்கு இல்லையா? புதிய கணக்கை பதிவு செய்க",
-    quickDemoLogin: "அல்லது விரைவாக உள்நுழைய:",
-    loginAsFarmer: "👨‍🌾 விவசாயியாக உள்நுழைக (ரமேஷ்)",
-    loginAsOfficer: "👩‍🌾 அதிகாரியாக உள்நுழைக (டாக்டர் அன்பரசன்)",
-    loginAsAdmin: "🌾 நிர்வாகியாக உள்நுழைக (System Admin)",
 
     // Access Denied
     accessDeniedTitle: "403 — அனுமதி மறுக்கப்பட்டது",
     accessDeniedSub: "இந்தப் பக்கத்தைப் பார்க்க உங்களுக்கு அனுமதி இல்லை.",
-    accessDeniedMessage: "உங்கள் கணக்கு வகைக்கு இந்த பக்கத்தைப் பார்க்க அனுமதி இல்லை. இடதுபுற மெனுவைப் பயன்படுத்தவும்.",
+    accessDeniedMessage: "உங்கள் கணக்கு வகைக்கு இந்த பக்கத்தைப் பார்க்க அனுமதி இல்லை.",
 
     // Admin Dashboard Elements
     adminHeaderTitle: "கூட்டுறவு பிராந்திய நுண்ணறிவு & நிர்வாகக் கட்டுப்பாடு",
@@ -291,6 +316,10 @@ const TRANSLATIONS = {
     waterStress: "जल तनाव",
     nutrientStatus: "पोषक तत्व स्थिति",
     yieldPrediction: "उपज का अनुमान",
+    overallFarmHealth: "समग्र कृषि स्वास्थ्य",
+    todayRecommendedAction: "आज की अनुशंसित कार्रवाई",
+    todayWeatherConditions: "आज का मौसम",
+    liveShapFactors: "एआई प्राथमिक कारक",
     highRisk: "उच्च जोखिम",
     mediumRisk: "मध्यम जोखिम",
     lowRisk: "कम जोखिम",
@@ -312,6 +341,23 @@ const TRANSLATIONS = {
     reconnect: "पुन: कनेक्ट करें",
     logout: "लॉगआउट (Logout)",
 
+    // Farm Action Buttons & Headers
+    updateFieldTelemetry: "खेत टेलीमेट्री अपडेट करें",
+    registerNewFarm: "नया खेत पंजीकृत करें",
+    addFarmBtn: "+ खेत जोड़ें",
+    googleMapBtn: "गूगल मानचित्र",
+    satelliteMapBtn: "उपग्रह मानचित्र",
+    viewFarmXai: "फार्म एआई विवरण देखें",
+
+    // Dashboard Cards & Sources
+    dataSourceNotice: "स्रोत: Open-Meteo & NASA POWER सेंसर एपीआई",
+    riskTrend: "डायनामिक जोखिम रुझान",
+    riskTrendSub: "सेंसर डेटा पर आधारित लाइव संकेतक",
+    nearbyFarmsTitle: "आस-पास के क्षेत्रीय खेत — जोखिम विश्लेषण",
+    viewMap: "मानचित्र देखें",
+    psoRecTitle: "Swarm AI अनुशंसित कार्रवाई (PSO)",
+    confidence: "विश्वास स्कोर",
+
     // Auth & Profiles
     loginTitle: "एग्रीहाइव एआई में आपका स्वागत है",
     loginSub: "अपने डैशबोर्ड तक पहुंचने के लिए साइन इन करें",
@@ -324,10 +370,6 @@ const TRANSLATIONS = {
     createAccountBtn: "खाता बनाएं",
     alreadyHaveAccount: "क्या आपके पास पहले से एक खाता मौजूद है? साइन इन करें",
     noAccountYet: "खाता नहीं है? अभी पंजीकृत करें",
-    quickDemoLogin: "या त्वरित लॉगिन करें:",
-    loginAsFarmer: "👨‍🌾 किसान के रूप में लॉगिन करें (रमेश)",
-    loginAsOfficer: "👩‍🌾 अधिकारी के रूप में लॉगिन करें (डॉ. अनबरसन)",
-    loginAsAdmin: "🌾 एडमिन के रूप में लॉगिन करें (System Admin)",
 
     // Access Denied
     accessDeniedTitle: "403 — पहुंच से वंचित",
@@ -344,7 +386,26 @@ const TRANSLATIONS = {
   }
 };
 
-function getTranslation(lang, key) {
+/**
+ * Robust getTranslation helper function with automatic reverse English string lookup
+ */
+function getTranslation(lang, key, fallback) {
+  if (!key) return "";
   const dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
-  return dict[key] || TRANSLATIONS.en[key] || key;
+  
+  // 1. Direct dictionary key match
+  if (dict && dict[key]) return dict[key];
+  if (TRANSLATIONS.en && TRANSLATIONS.en[key]) return TRANSLATIONS.en[key];
+
+  // 2. Reverse lookup: if key is an English text phrase, match it to its translated equivalent!
+  if (lang !== "en" && TRANSLATIONS[lang]) {
+    const trimmedKey = String(key).trim();
+    for (const [k, englishVal] of Object.entries(TRANSLATIONS.en)) {
+      if (String(englishVal).trim() === trimmedKey && TRANSLATIONS[lang][k]) {
+        return TRANSLATIONS[lang][k];
+      }
+    }
+  }
+
+  return fallback !== undefined ? fallback : key;
 }
