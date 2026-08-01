@@ -299,13 +299,15 @@ function App() {
   const [currentUser, setCurrentUser] = useState(() => {
     try {
       const saved = localStorage.getItem("agri_user");
-      return saved ? JSON.parse(saved) : { id: 1, name: "Ramesh Kumar", email: "ramesh@agrihive.in", role: "farmer", farm_id: 1 };
+      return saved ? JSON.parse(saved) : null;
     } catch (e) {
-      return { id: 1, name: "Ramesh Kumar", email: "ramesh@agrihive.in", role: "farmer", farm_id: 1 };
+      return null;
     }
   });
 
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(() => {
+    return !localStorage.getItem("agri_user");
+  });
 
   const handleLogin = (user) => {
     setCurrentUser(user);

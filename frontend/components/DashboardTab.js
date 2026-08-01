@@ -92,15 +92,20 @@ function DashboardTab({ api, notify, farms, goTo, selectedFarmId, setSelectedFar
   const isNewFarmer = role === "farmer" && (!currentUser?.farm_id && selectedFarmId === null);
   
   let activeFarm;
-  if (isNewFarmer) {
-    activeFarm = {
-      id: null,
-      name: `${currentUser?.full_name || currentUser?.username || "My"}'s Field`,
-      crop: "Rice",
-      isNew: true
-    };
+  if (role === "farmer") {
+    const farmerFarm = farms.find((f) => f.id === selectedFarmId || (currentUser?.farm_id && f.id === currentUser.farm_id));
+    if (farmerFarm) {
+      activeFarm = farmerFarm;
+    } else {
+      activeFarm = {
+        id: null,
+        name: `${currentUser?.full_name || currentUser?.username || "My"}'s Field`,
+        crop: "Rice",
+        isNew: true
+      };
+    }
   } else {
-    activeFarm = farms.find((f) => f.id === farmId) || farms[0] || { id: 1, name: "Farm A", crop: "Rice" };
+    activeFarm = farms.find((f) => f.id === selectedFarmId) || farms[0] || { id: 1, name: "Farm A", crop: "Rice" };
   }
 
   if (role === "farmer") {

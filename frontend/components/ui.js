@@ -104,7 +104,7 @@ function Sidebar({ nav, tab, setTab, currentUser, onSwitchAccount, onLogout, t }
         <div className="flex items-center gap-2.5">
           <span className="text-xl">{roleIcon}</span>
           <div>
-            <p className="text-[11px] font-extrabold text-white leading-tight">{currentUser?.name || "Ramesh Kumar"}</p>
+            <p className="text-[11px] font-extrabold text-white leading-tight">{currentUser?.full_name || currentUser?.name || currentUser?.username || "User"}</p>
             <p className="text-[9px] font-extrabold text-leaf-400 uppercase tracking-wider mt-0.5">{roleLabel}</p>
           </div>
         </div>
@@ -143,7 +143,7 @@ function Sidebar({ nav, tab, setTab, currentUser, onSwitchAccount, onLogout, t }
       {/* User Session Footer */}
       <div className="p-4 border-t border-white/10 bg-black/20">
         <div className="flex items-center justify-between text-xs font-bold">
-          <span className="text-sand-400 text-[11px]">Logged in as <strong className="text-white">@{currentUser?.username || "farmer1"}</strong></span>
+          <span className="text-sand-400 text-[11px]">Logged in as <strong className="text-white">@{currentUser?.username || "farmer"}</strong></span>
           <button
             onClick={onLogout}
             className="text-rose-400 hover:text-rose-300 text-[11px] font-black hover:underline"
@@ -161,14 +161,16 @@ function UserBadge({ user, onSwitch, onLogout, lang }) {
   const roleBadgeCls =
     role === "admin" ? "bg-purple-100 text-purple-800" : role === "officer" ? "bg-blue-100 text-blue-800" : "bg-leaf-100 text-leaf-800";
   const roleLabel = role === "admin" ? "ADMINISTRATOR" : role === "officer" ? "AGRICULTURAL OFFICER" : "FARMER";
+  const displayName = user?.full_name || user?.name || user?.username || "User";
+  const avatarLetter = displayName.charAt(0).toUpperCase();
 
   return (
     <div className="flex items-center gap-2.5 pl-3 border-l border-sand-200">
-      <div className="w-8 h-8 rounded-full bg-leaf-700 text-white font-extrabold text-xs flex items-center justify-center shadow-sm">
-        {user?.name ? user.name.charAt(0) : "U"}
+      <div className="w-8 h-8 rounded-full bg-leaf-700 text-white font-extrabold text-xs flex items-center justify-center shadow-sm uppercase">
+        {avatarLetter}
       </div>
       <div className="hidden sm:block text-left">
-        <p className="text-xs font-black text-ink-950 leading-tight">{user?.name || "Ramesh Kumar"}</p>
+        <p className="text-xs font-black text-ink-950 leading-tight">{displayName}</p>
         <span className={`px-1.5 py-0.2 rounded text-[9px] font-black uppercase tracking-wider ${roleBadgeCls}`}>
           {roleLabel}
         </span>
