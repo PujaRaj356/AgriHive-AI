@@ -15,11 +15,11 @@ function HelpTab({ lang = "en" }) {
             {isTa ? "அக்ரிஹைவ் AI — விரைவு வழிகாட்டி" : isHi ? "एग्रीहाइव एआई — त्वरित गाइड" : "AgriHive AI — Quick Start Guide & Support"}
           </h2>
           <p className="text-xs text-leaf-100 max-w-2xl leading-relaxed">
-            {isTa 
+            {isTa
               ? "கூட்டு பண்ணை நுண்ணறிவு தளம் மூலம் உங்கள் பயிர் பாதுகாப்பு, நீர் மேலாண்மை மற்றும் மகசூல் கணிப்பை எளிதாக நிர்வகிக்கவும்."
               : isHi
-              ? "सहयोगी कृषि बुद्धिमत्ता मंच के माध्यम से अपनी फसल सुरक्षा, जल प्रबंधन और उपज पूर्वानुमान को आसानी से प्रबंधित करें।"
-              : "Welcome to AgriHive AI! Follow this step-by-step Quick Start Guide to set up your farm, sync field telemetry, and access collaborative AI insights."}
+                ? "सहयोगी कृषि बुद्धिमत्ता मंच के माध्यम से अपनी फसल सुरक्षा, जल प्रबंधन और उपज पूर्वानुमान को आसानी से प्रबंधित करें।"
+                : "Welcome to AgriHive AI! Follow this step-by-step Quick Start Guide to set up your farm, sync field telemetry, and access collaborative AI insights."}
           </p>
         </div>
       </div>
@@ -30,7 +30,7 @@ function HelpTab({ lang = "en" }) {
           <span className="w-7 h-7 rounded-lg bg-leaf-100 text-leaf-700 flex items-center justify-center font-bold text-xs">🚀</span>
           {isTa ? "விவசாயிகளுக்கான விரைவு வழிகாட்டி (Quick Start Guide)" : isHi ? "किसानों के लिए त्वरित गाइड (Quick Start Guide)" : "Quick Start Guide for Farmers & Field Officers"}
         </h3>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="p-4 bg-sand-50 rounded-xl border border-sand-200 space-y-2">
             <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-extrabold text-sm">📍</div>
@@ -38,11 +38,11 @@ function HelpTab({ lang = "en" }) {
               {isTa ? "1. பண்ணையைப் பதிவு செய்யவும்" : isHi ? "1. अपना खेत पंजीकृत करें" : "1. Register & Setup Your Farm"}
             </h4>
             <p className="text-[11px] text-ink-950/60 leading-normal">
-              {isTa 
-                ? "புதிய விவசாயியாக முதல் முறை உள்நுழையும்போது உங்கள் பண்ணை பெயர், பயிர் மற்றும் மண் ஈரப்பதம் விவரங்களை உள்ளிடவும்." 
-                : isHi 
-                ? "पहली बार नए किसान के रूप में लॉगिन करते समय अपना खेत का नाम, फसल और मृदा डेटा दर्ज करें।" 
-                : "Enter your farm name, crop type, soil pH, moisture %, and temperature when logging in for the first time."}
+              {isTa
+                ? "புதிய விவசாயியாக முதல் முறை உள்நுழையும்போது உங்கள் பண்ணை பெயர், பயிர் மற்றும் மண் ஈரப்பதம் விவரங்களை உள்ளிடவும்."
+                : isHi
+                  ? "पहली बार नए किसान के रूप में लॉगिन करते समय अपना खेत का नाम, फसल और मृदा डेटा दर्ज करें।"
+                  : "Enter your farm name, crop type, soil pH, moisture %, and temperature when logging in for the first time."}
             </p>
           </div>
 
@@ -52,11 +52,11 @@ function HelpTab({ lang = "en" }) {
               {isTa ? "2. வானிலை தரவை புதுப்பிக்கவும்" : isHi ? "2. मौसम डेटा अपडेट करें" : "2. Sync Live Weather Data"}
             </h4>
             <p className="text-[11px] text-ink-950/60 leading-normal">
-              {isTa 
-                ? "டாஷ்போர்டில் உள்ள 'Fetch Weather API' பட்டனை அழுத்தி நேரலை வெப்பநிலை, மழைப்பொழிவு மற்றும் ஈரப்பதத்தை பெறவும்." 
-                : isHi 
-                ? "डैशबोर्ड पर 'Fetch Weather API' बटन दबाकर लाइव तापमान, वर्षा और आर्द्रता प्राप्त करें।" 
-                : "Click 'Fetch Weather API' on the dashboard to pull real-time Open-Meteo and NASA POWER weather feeds."}
+              {isTa
+                ? "டாஷ்போர்டில் உள்ள 'Fetch Weather API' பட்டனை அழுத்தி நேரலை வெப்பநிலை, மழைப்பொழிவு மற்றும் ஈரப்பதத்தை பெறவும்."
+                : isHi
+                  ? "डैशबोर्ड पर 'Fetch Weather API' बटन दबाकर लाइव तापमान, वर्षा और आर्द्रता प्राप्त करें।"
+                  : "Click 'Fetch Weather API' on the dashboard to pull real-time Open-Meteo and NASA POWER weather feeds."}
             </p>
           </div>
 
@@ -66,11 +66,11 @@ function HelpTab({ lang = "en" }) {
               {isTa ? "3. கூட்டு AI ஆலோசனைகளைப் பெறவும்" : isHi ? "3. एआई सलाह प्राप्त करें" : "3. Get Collaborative AI Advice"}
             </h4>
             <p className="text-[11px] text-ink-950/60 leading-normal">
-              {isTa 
-                ? "உங்கள் நிலத்தின் தரவு மற்றும் அருகிலுள்ள பண்ணைகளின் கூட்டுத் தரவு மூலம் உருவாக்கப்பட்டAI நீர் மேலாண்மை பரிந்துரைகளைப் பெறவும்." 
-                : isHi 
-                ? "अपने खेत के डेटा और आसपास के खेतों के सामूहिक डेटा से उत्पन्न एआई सिफारिशें प्राप्त करें।" 
-                : "Review PSO-optimized irrigation, NPK recommendations, and SHAP explainable factors tailored to your farm."}
+              {isTa
+                ? "உங்கள் நிலத்தின் தரவு மற்றும் அருகிலுள்ள பண்ணைகளின் கூட்டுத் தரவு மூலம் உருவாக்கப்பட்டAI நீர் மேலாண்மை பரிந்துரைகளைப் பெறவும்."
+                : isHi
+                  ? "अपने खेत के डेटा और आसपास के खेतों के सामूहिक डेटा से उत्पन्न एआई सिफारिशें प्राप्त करें।"
+                  : "Review PSO-optimized irrigation, NPK recommendations, and SHAP explainable factors tailored to your farm."}
             </p>
           </div>
         </div>
@@ -121,17 +121,17 @@ function HelpTab({ lang = "en" }) {
               {isTa ? "உதவி & தொடர்பு" : isHi ? "सहायता और संपर्क" : "Need Direct Assistance?"}
             </h3>
             <p className="text-xs text-ink-950/70 leading-relaxed">
-              {isTa 
-                ? "உங்கள் பண்ணை பதிவு அல்லது AI கணக்கீடுகள் குறித்து ஏதேனும் சந்தேகங்கள் இருந்தால் உங்கள் வேளாண் அலுவலர் அல்லது கூட்டுறவு மையத்தைத் தொடர்பு கொள்ளவும்." 
-                : isHi 
-                ? "यदि आपके पास अपने खेत पंजीकरण या एआई गणना के बारे में प्रश्न हैं, तो अपने कृषि अधिकारी से संपर्क करें।" 
-                : "If you need support registering your farm or updating field telemetry readings, contact your local Agricultural Officer or Cooperative Support Center."}
+              {isTa
+                ? "உங்கள் பண்ணை பதிவு அல்லது AI கணக்கீடுகள் குறித்து ஏதேனும் சந்தேகங்கள் இருந்தால் உங்கள் வேளாண் அலுவலர் அல்லது கூட்டுறவு மையத்தைத் தொடர்பு கொள்ளவும்."
+                : isHi
+                  ? "यदि आपके पास अपने खेत पंजीकरण या एआई गणना के बारे में प्रश्न हैं, तो अपने कृषि अधिकारी से संपर्क करें।"
+                  : "If you need support registering your farm or updating field telemetry readings, contact your local Agricultural Officer or Cooperative Support Center."}
             </p>
           </div>
 
           <div className="p-4 bg-sand-50 rounded-xl border border-sand-200 space-y-1">
             <p className="text-[11px] font-extrabold text-ink-950 uppercase tracking-wider">AgriHive Cooperative Support</p>
-            <p className="text-xs font-bold text-leaf-700">📧 support@agrihive.in • 📞 Toll Free: 1800-425-7890</p>
+            <p className="text-xs font-bold text-leaf-700">📧 support@agrihive.in • 📞 Toll Free: 9894106562</p>
           </div>
         </div>
       </div>
