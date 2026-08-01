@@ -8,7 +8,7 @@ class TrainRequest(BaseModel):
 
 
 class TrainedModelOut(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(protected_namespaces=(), from_attributes=True)
 
     id: int
     target: str

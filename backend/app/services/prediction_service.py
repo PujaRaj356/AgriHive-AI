@@ -159,9 +159,15 @@ def train_model(db: Session, farm_ids: list[int] | None = None) -> TrainedModel:
     file_path = os.path.join(settings.MODEL_STORAGE_DIR, f"water_stress_{timestamp}.joblib")
     joblib.dump({"model": best_model, "feature_list": feature_list, "medians": medians}, file_path)
 
-    db.query(TrainedModel).filter(TrainedModel.target == "water_stress_risk", TrainedModel.is_active.is_(True)).update(
-        {"is_active": False}
-    )
+    # Clean up old inactive model files on disk to prevent binary file bloat
+    old_models = db.query(TrainedModel).filter(TrainedModel.target == "water_stress_risk", TrainedModel.is_active.is_(True)).all()
+    for old_m in old_models:
+        old_m.is_active = False
+        if old_m.file_path and os.path.exists(old_m.file_path) and old_m.file_path != file_path:
+            try:
+                os.remove(old_m.file_path)
+            except OSError:
+                pass
 
     record = TrainedModel(
         target="water_stress_risk",

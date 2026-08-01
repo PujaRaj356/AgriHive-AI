@@ -89,13 +89,25 @@ function DashboardTab({ api, notify, farms, goTo, selectedFarmId, setSelectedFar
   };
 
   const role = currentUser?.role || "farmer";
-  const isNewFarmer = role === "farmer" && (!currentUser?.farm_id && selectedFarmId === null);
-  
   let activeFarm;
+  let farmerFarms = [];
+
   if (role === "farmer") {
-    const farmerFarm = farms.find((f) => f.id === selectedFarmId || (currentUser?.farm_id && f.id === currentUser.farm_id));
-    if (farmerFarm) {
-      activeFarm = farmerFarm;
+    const userFarmsKey = `agri_user_farms_${currentUser?.id || 0}`;
+    let userFarmIds = [];
+    try {
+      userFarmIds = JSON.parse(localStorage.getItem(userFarmsKey) || "[]");
+    } catch (e) {}
+
+    if (currentUser?.farm_id && !userFarmIds.includes(currentUser.farm_id)) {
+      userFarmIds.push(currentUser.farm_id);
+    }
+
+    farmerFarms = farms.filter((f) => userFarmIds.includes(f.id));
+    const matchedFarm = farmerFarms.find((f) => f.id === selectedFarmId) || farmerFarms[0];
+
+    if (matchedFarm) {
+      activeFarm = matchedFarm;
     } else {
       activeFarm = {
         id: null,
@@ -113,7 +125,7 @@ function DashboardTab({ api, notify, farms, goTo, selectedFarmId, setSelectedFar
       <FarmerDashboardView
         t={t}
         activeFarm={activeFarm}
-        farms={farms}
+        farms={farmerFarms}
         selectedFarmId={selectedFarmId}
         setSelectedFarmId={setSelectedFarmId}
         onAddFarm={onAddFarm}
@@ -184,10 +196,14 @@ function FarmerDashboardView({ t, activeFarm, farms = [], selectedFarmId, setSel
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (activeFarm.isNew || !activeFarm.id) {
-      setHasTelemetry(false);
+    const userCompleted = localStorage.getItem(`agri_telemetry_completed_user_${currentUser?.id}`) === "true";
+    const farmKeyCompleted = localStorage.getItem(`agri_telemetry_u${currentUser?.id || 0}_f${activeFarm.id}`) === "true";
+
+    // If user has registered a farm, completed telemetry, or farm exists in DB -> NEVER ask again!
+    if (userCompleted || farmKeyCompleted || (activeFarm.id && !activeFarm.isNew)) {
+      setHasTelemetry(true);
     } else {
-      setHasTelemetry(localStorage.getItem(`agri_telemetry_u${currentUser?.id || 0}_f${activeFarm.id}`) === "true");
+      setHasTelemetry(false);
     }
     setForm((prev) => ({
       ...prev,
@@ -217,9 +233,6 @@ function FarmerDashboardView({ t, activeFarm, farms = [], selectedFarmId, setSel
         const createdFarm = await api("/farms", "POST", farmPayload);
         targetFarmId = createdFarm.id;
         if (setSelectedFarmId) setSelectedFarmId(targetFarmId);
-
-        const updatedUser = { ...currentUser, farm_id: targetFarmId };
-        localStorage.setItem("agri_user", JSON.stringify(updatedUser));
       }
 
       const payload = {
@@ -236,7 +249,26 @@ function FarmerDashboardView({ t, activeFarm, farms = [], selectedFarmId, setSel
       };
 
       await api("/virtual-farm/custom-entry", "POST", payload);
+
+      // Save permanent completion flags so user is NEVER asked to fill form again
+      localStorage.setItem(`agri_telemetry_completed_user_${currentUser?.id || 0}`, "true");
       localStorage.setItem(`agri_telemetry_u${currentUser?.id || 0}_f${targetFarmId}`, "true");
+      localStorage.setItem(`agri_user_${currentUser?.id || 0}_farm_id`, targetFarmId.toString());
+
+      // Save farm ID to user's registered farms list
+      const uFarmsKey = `agri_user_farms_${currentUser?.id || 0}`;
+      let userFarmList = [];
+      try {
+        userFarmList = JSON.parse(localStorage.getItem(uFarmsKey) || "[]");
+      } catch (e) {}
+      if (!userFarmList.includes(targetFarmId)) {
+        userFarmList.push(targetFarmId);
+        localStorage.setItem(uFarmsKey, JSON.stringify(userFarmList));
+      }
+
+      const updatedUser = { ...currentUser, farm_id: targetFarmId };
+      localStorage.setItem("agri_user", JSON.stringify(updatedUser));
+
       setHasTelemetry(true);
       notify(`Successfully saved field entries for ${form.farm_name}! Combined AI Analysis generated using your field data + regional seed models.`);
       if (loadDashboard) loadDashboard(false);

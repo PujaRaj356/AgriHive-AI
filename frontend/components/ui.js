@@ -108,13 +108,6 @@ function Sidebar({ nav, tab, setTab, currentUser, onSwitchAccount, onLogout, t }
             <p className="text-[9px] font-extrabold text-leaf-400 uppercase tracking-wider mt-0.5">{roleLabel}</p>
           </div>
         </div>
-        <button
-          onClick={onSwitchAccount}
-          title="Switch User Role Account"
-          className="px-2 py-1 bg-leaf-600 hover:bg-leaf-700 text-white text-[10px] font-black rounded-lg transition-colors"
-        >
-          Switch
-        </button>
       </div>
 
       {/* Navigation Link Items */}
@@ -156,7 +149,7 @@ function Sidebar({ nav, tab, setTab, currentUser, onSwitchAccount, onLogout, t }
   );
 }
 
-function UserBadge({ user, onSwitch, onLogout, lang }) {
+function UserBadge({ user, onLogout, lang }) {
   const role = user?.role || "farmer";
   const roleBadgeCls =
     role === "admin" ? "bg-purple-100 text-purple-800" : role === "officer" ? "bg-blue-100 text-blue-800" : "bg-leaf-100 text-leaf-800";
@@ -175,12 +168,6 @@ function UserBadge({ user, onSwitch, onLogout, lang }) {
           {roleLabel}
         </span>
       </div>
-      <button
-        onClick={onSwitch}
-        className="px-2.5 py-1 text-[11px] font-extrabold bg-sand-100 hover:bg-sand-200 text-ink-950 rounded-lg transition-colors border border-sand-200"
-      >
-        Switch
-      </button>
     </div>
   );
 }

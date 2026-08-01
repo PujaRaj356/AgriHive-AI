@@ -315,8 +315,9 @@ function App() {
     setShowLoginModal(false);
     setTab("dashboard");
 
-    if (user.farm_id) {
-      setSelectedFarmId(user.farm_id);
+    const savedFarmId = user.farm_id || localStorage.getItem(`agri_user_${user.id}_farm_id`);
+    if (savedFarmId) {
+      setSelectedFarmId(parseInt(savedFarmId));
     } else {
       setSelectedFarmId(null);
     }
